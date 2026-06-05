@@ -1,0 +1,16 @@
+{
+  "name": "oop-coursework",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"dotnet run --project apps/api\" \"pnpm --filter web dev\"",
+    "build": "pnpm --filter web build",
+    "test": "dotnet test",
+    "report": "node reports/coursework/generate-report.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "docx": "^9.7.1"
+  }
+}
