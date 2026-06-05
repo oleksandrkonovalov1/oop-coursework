@@ -137,6 +137,48 @@ public class DirectoryService
         return removed;
     }
 
+    // ===== Запити завдання =====
+
+    /// <summary>Повертає всі відомі назви спеціальностей (без дублів, за абеткою).</summary>
+    public List<string> GetSpecialtyNames() =>
+        _store.Specialties.Select(s => s.Name)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(n => n, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+    /// <summary>
+    /// «Все щодо обраної спеціальності»: пропозиції всіх вузів за назвою спеціальності,
+    /// з необов'язковим фільтром за максимальною вартістю контракту.
+    /// </summary>
+    public List<SpecialtyOffer> GetOffers(string name, decimal? maxPrice)
+    {
+        var query = _store.Specialties
+            .Where(s => string.Equals(s.Name, name.Trim(), StringComparison.OrdinalIgnoreCase));
+        if (maxPrice.HasValue)
+            query = query.Where(s => s.ContractPrice <= maxPrice.Value);
+        return query
+            .Select(s => new SpecialtyOffer(GetUniversity(s.UniversityId), s))
+            .OrderBy(o => o.University.Name)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Пошук мінімального конкурсу з даної спеціальності за обраною формою навчання.
+    /// Вузи, де форма не ведеться (null), пропускаються. Повертає null, якщо даних немає.
+    /// </summary>
+    public MinCompetitionResult? GetMinCompetition(string name, StudyForm form)
+    {
+        var best = _store.Specialties
+            .Where(s => string.Equals(s.Name, name.Trim(), StringComparison.OrdinalIgnoreCase))
+            .Where(s => s.Competition.ByForm(form).HasValue)
+            .OrderBy(s => s.Competition.ByForm(form)!.Value)
+            .FirstOrDefault();
+        return best is null
+            ? null
+            : new MinCompetitionResult(GetUniversity(best.UniversityId), best, form,
+                best.Competition.ByForm(form)!.Value);
+    }
+
     private (string Code, string Name, decimal Price, Competition Competition) ValidateSpecialty(SpecialtyInput input)
     {
         var errors = new Dictionary<string, string>();

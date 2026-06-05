@@ -164,4 +164,71 @@ public class DirectoryServiceTests : IDisposable
         Assert.Single(_store.Specialties);
         Assert.All(_store.Specialties, s => Assert.Equal(other.Id, s.UniversityId));
     }
+
+    // --- Запити завдання ---
+
+    private void SeedThreeUniversities()
+    {
+        var a = _svc.AddUniversity(new UniversityInput("ХНУРЕ", "Харків"));
+        var b = _svc.AddUniversity(new UniversityInput("КПІ", "Київ"));
+        var c = _svc.AddUniversity(new UniversityInput("ЛНУ", "Львів"));
+        _svc.AddSpecialty(a.Id, new SpecialtyInput("121", "Інженерія програмного забезпечення", 32000m,
+            new CompetitionInput(7.5m, null, 2.0m)));
+        _svc.AddSpecialty(b.Id, new SpecialtyInput("121", "Інженерія програмного забезпечення", 45000m,
+            new CompetitionInput(9.1m, 3.0m, null)));
+        _svc.AddSpecialty(c.Id, new SpecialtyInput("121", "Інженерія програмного забезпечення", 25000m,
+            new CompetitionInput(null, null, 1.4m)));
+        _svc.AddSpecialty(a.Id, new SpecialtyInput("122", "Комп'ютерні науки", 30000m,
+            new CompetitionInput(6.0m, null, null)));
+    }
+
+    [Fact]
+    public void GetSpecialtyNames_DistinctSorted()
+    {
+        SeedThreeUniversities();
+        var names = _svc.GetSpecialtyNames();
+        Assert.Equal(new[] { "Інженерія програмного забезпечення", "Комп'ютерні науки" }, names);
+    }
+
+    [Fact]
+    public void GetOffers_ReturnsAllUniversitiesTeachingSpecialty()
+    {
+        SeedThreeUniversities();
+        var offers = _svc.GetOffers("Інженерія програмного забезпечення", maxPrice: null);
+        Assert.Equal(3, offers.Count);
+    }
+
+    [Fact]
+    public void GetOffers_MaxPriceFilters()
+    {
+        SeedThreeUniversities();
+        var offers = _svc.GetOffers("Інженерія програмного забезпечення", maxPrice: 33000m);
+        Assert.Equal(2, offers.Count);
+        Assert.DoesNotContain(offers, o => o.University.Name == "КПІ");
+    }
+
+    [Fact]
+    public void GetOffers_UnknownSpecialty_Empty()
+    {
+        SeedThreeUniversities();
+        Assert.Empty(_svc.GetOffers("Стоматологія", null));
+    }
+
+    [Fact]
+    public void GetMinCompetition_FullTime_FindsMinimumSkippingNulls()
+    {
+        SeedThreeUniversities();
+        var result = _svc.GetMinCompetition("Інженерія програмного забезпечення", StudyForm.FullTime);
+        Assert.NotNull(result);
+        Assert.Equal("ХНУРЕ", result!.University.Name); // 7.5 < 9.1; ЛНУ без денної — пропущено
+        Assert.Equal(7.5m, result.Value);
+    }
+
+    [Fact]
+    public void GetMinCompetition_NoDataForForm_ReturnsNull()
+    {
+        SeedThreeUniversities();
+        var result = _svc.GetMinCompetition("Комп'ютерні науки", StudyForm.Evening);
+        Assert.Null(result);
+    }
 }
