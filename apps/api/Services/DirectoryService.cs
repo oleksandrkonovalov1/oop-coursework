@@ -75,4 +75,90 @@ public class DirectoryService
         if (errors.Count > 0) throw new ValidationException(errors);
         return (name, address);
     }
+
+    // ===== Спеціальності =====
+
+    /// <summary>Повертає всі спеціальності вказаного вузу («все щодо обраного вузу»).</summary>
+    public List<Specialty> GetUniversitySpecialties(Guid universityId) =>
+        _store.Specialties.Where(s => s.UniversityId == universityId)
+            .OrderBy(s => s.Code).ThenBy(s => s.Name).ToList();
+
+    /// <summary>Додає спеціальність до вузу після валідації та зберігає базу.</summary>
+    public Specialty AddSpecialty(Guid universityId, SpecialtyInput input)
+    {
+        GetUniversity(universityId); // KeyNotFoundException, якщо вузу нема
+        var validated = ValidateSpecialty(input);
+        var spec = new Specialty
+        {
+            UniversityId = universityId,
+            Code = validated.Code,
+            Name = validated.Name,
+            ContractPrice = validated.Price,
+            Competition = validated.Competition
+        };
+        _store.Specialties.Add(spec);
+        _store.Save();
+        return spec;
+    }
+
+    /// <summary>Оновлює спеціальність після валідації та зберігає базу.</summary>
+    public Specialty UpdateSpecialty(Guid id, SpecialtyInput input)
+    {
+        var spec = _store.Specialties.FirstOrDefault(s => s.Id == id)
+                   ?? throw new KeyNotFoundException("Спеціальність не знайдено");
+        var validated = ValidateSpecialty(input);
+        spec.Code = validated.Code;
+        spec.Name = validated.Name;
+        spec.ContractPrice = validated.Price;
+        spec.Competition = validated.Competition;
+        _store.Save();
+        return spec;
+    }
+
+    /// <summary>Видаляє спеціальність і зберігає базу.</summary>
+    public void DeleteSpecialty(Guid id)
+    {
+        var spec = _store.Specialties.FirstOrDefault(s => s.Id == id)
+                   ?? throw new KeyNotFoundException("Спеціальність не знайдено");
+        _store.Specialties.Remove(spec);
+        _store.Save();
+    }
+
+    /// <summary>
+    /// Видаляє вуз разом з усіма його спеціальностями (каскадно, для цілісності даних).
+    /// Повертає кількість видалених спеціальностей.
+    /// </summary>
+    public int DeleteUniversity(Guid id)
+    {
+        var uni = GetUniversity(id);
+        var removed = _store.Specialties.RemoveAll(s => s.UniversityId == id);
+        _store.Universities.Remove(uni);
+        _store.Save();
+        return removed;
+    }
+
+    private (string Code, string Name, decimal Price, Competition Competition) ValidateSpecialty(SpecialtyInput input)
+    {
+        var errors = new Dictionary<string, string>();
+        var code = (input.Code ?? "").Trim();
+        var name = (input.Name ?? "").Trim();
+
+        if (name.Length == 0) errors["name"] = "Вкажіть назву спеціальності";
+        else if (name.Length > 200) errors["name"] = "Назва не може бути довшою за 200 символів";
+
+        if (code.Length > 10) errors["code"] = "Код не може бути довшим за 10 символів";
+
+        if (input.ContractPrice is null or <= 0)
+            errors["contractPrice"] = "Вкажіть вартість контракту — число, більше за нуль";
+
+        var c = input.Competition ?? new CompetitionInput(null, null, null);
+        if (c.FullTime is < 0 || c.Evening is < 0 || c.PartTime is < 0)
+            errors["competition"] = "Конкурс не може бути від'ємним";
+        else if (c.FullTime is null && c.Evening is null && c.PartTime is null)
+            errors["competition"] = "Заповніть конкурс хоча б за однією формою навчання";
+
+        if (errors.Count > 0) throw new ValidationException(errors);
+        return (code, name, input.ContractPrice!.Value,
+            new Competition { FullTime = c.FullTime, Evening = c.Evening, PartTime = c.PartTime });
+    }
 }
