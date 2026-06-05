@@ -103,12 +103,13 @@ const planTable = new Table({
         cell("Примітка", { width: 18, align: AlignmentType.CENTER, bold: true }),
       ],
     }),
-    ...planStages.map(([n, stage, term]) => new TableRow({
+    ...planStages.map(([n, stage, term], i) => new TableRow({
       children: [
         cell(n, { align: AlignmentType.CENTER }),
         cell(stage),
         cell(term, { align: AlignmentType.CENTER }),
-        cell("Виконано", { align: AlignmentType.CENTER }),
+        // останній етап (захист) ще не відбувся на момент подання записки
+        cell(i === planStages.length - 1 ? "" : "Виконано", { align: AlignmentType.CENTER }),
       ],
     })),
   ],
@@ -161,7 +162,7 @@ const abstract = [
   plainHeading("РЕФЕРАТ", { pageBreakBefore: false }),
   body(
     `Пояснювальна записка до курсової роботи: ${PAGES_TOTAL} с., ` +
-    `${FIGURES_TOTAL} рис., ${SOURCES_TOTAL} джерел.`,
+    `${FIGURES_TOTAL} рис., 1 додаток, ${SOURCES_TOTAL} джерел.`,
   ),
   emptyLine(),
   body(

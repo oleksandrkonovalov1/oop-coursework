@@ -94,7 +94,7 @@ export const codeBlock = (text) => {
     codeParagraph(line, { keepLines: keep, keepNext: keep && i < lines.length - 1 }));
 };
 
-// Рисунок з підписом за ДСТУ: зображення по центру, під ним «Рисунок N — Назва»
+// Рисунок з підписом за ДСТУ: зображення по центру, під ним «Рисунок N – Назва» (коротке тире, як у зразку методички)
 export const figure = (path, { width, height, number, caption }) => [
   new Paragraph({
     alignment: AlignmentType.CENTER,
@@ -106,5 +106,5 @@ export const figure = (path, { width, height, number, caption }) => [
       type: "png",
     })],
   }),
-  centered(run(`Рисунок ${number} — ${caption}`), { before: 60, after: 240 }),
+  centered(run(`Рисунок ${number} – ${caption}`), { before: 60, after: 240 }),
 ];
