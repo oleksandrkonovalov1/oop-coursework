@@ -6,12 +6,12 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
-  /** Показувати рядок-підказку «Enter — зберегти · Esc — скасувати» під контентом */
-  showHint?: boolean;
+  /** Рядок-підказка про клавіатуру під контентом (напр. «Enter — зберегти · Esc — скасувати») */
+  hint?: string;
 }
 
 /** Модальне вікно на Radix Dialog: Esc закриває, фокус замкнено всередині. */
-export default function Modal({ open, onClose, title, children, showHint }: ModalProps) {
+export default function Modal({ open, onClose, title, children, hint }: ModalProps) {
   return (
     <Dialog.Root open={open} onOpenChange={(o) => !o && onClose()}>
       <Dialog.Portal>
@@ -33,9 +33,9 @@ export default function Modal({ open, onClose, title, children, showHint }: Moda
 
           {children}
 
-          {showHint && (
+          {hint && (
             <p className="mt-3 text-xs text-gray-400 text-center">
-              Enter — зберегти · Esc — скасувати
+              {hint}
             </p>
           )}
         </Dialog.Content>

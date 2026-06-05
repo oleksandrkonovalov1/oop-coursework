@@ -17,7 +17,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {status?.loadProblem && (
-        <div className="bg-amber-100 border-b border-amber-300 text-amber-900 text-sm px-4 py-2 text-center">
+        <div role="status" className="bg-amber-100 border-b border-amber-300 text-amber-900 text-sm px-4 py-2 text-center">
           Частину файлів даних не вдалося прочитати — відповідні колекції розпочато порожніми.
         </div>
       )}
@@ -26,7 +26,7 @@ export default function App() {
           <span className="font-semibold text-lg mr-4">Довідник абітурієнта</span>
           <NavLink to="/" className={link} end>Вузи</NavLink>
           <NavLink to="/specialties" className={link}>Спеціальності</NavLink>
-          <button onClick={() => setHelpOpen(true)} title="Допомога (?)"
+          <button onClick={() => setHelpOpen(true)} aria-label="Допомога" title="Допомога (?)"
             className="ml-auto w-8 h-8 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100">
             ?
           </button>

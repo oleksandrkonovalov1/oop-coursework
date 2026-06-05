@@ -5,6 +5,7 @@ import { api } from "../api";
 import type { University, UniversityInput } from "../types";
 import UniversityForm from "../components/UniversityForm";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { inputCls } from "../lib/ui";
 
 /** Сторінка «Вузи»: пошук за назвою/адресою, таблиця, CRUD через модальні вікна. */
 export default function UniversitiesPage() {
@@ -65,7 +66,8 @@ export default function UniversitiesPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Пошук (назва або адреса)"
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Пошук вузів"
+          className={inputCls}
         />
       </div>
 
@@ -97,12 +99,16 @@ export default function UniversitiesPage() {
                         setEditing(u);
                         setFormOpen(true);
                       }}
+                      aria-label="Редагувати"
+                      title="Редагувати"
                       className="px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-100"
                     >
                       Ред.
                     </button>
                     <button
                       onClick={() => setDeleting(u)}
+                      aria-label="Видалити"
+                      title="Видалити"
                       className="px-2 py-1 text-xs rounded border border-red-300 text-red-600 hover:bg-red-50"
                     >
                       Вид.

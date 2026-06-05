@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useEffect } from "react";
 import Modal from "./Modal";
 import { ApiValidationError } from "../api";
+import { inputCls } from "../lib/ui";
 import type { University, UniversityInput } from "../types";
 
 const schema = z.object({
@@ -48,8 +49,6 @@ export default function UniversityForm({ open, initial, onSubmit, onClose }: Uni
     }
   });
 
-  const fieldCls =
-    "w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
   const errText = "text-sm text-red-600 mt-1";
 
   return (
@@ -57,21 +56,21 @@ export default function UniversityForm({ open, initial, onSubmit, onClose }: Uni
       open={open}
       onClose={onClose}
       title={initial ? "Редагування вузу" : "Додавання вузу"}
-      showHint
+      hint="Enter — зберегти · Esc — скасувати"
     >
       <form onSubmit={submit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1" htmlFor="uni-name">
             Найменування
           </label>
-          <input id="uni-name" className={fieldCls} autoFocus {...register("name")} />
+          <input id="uni-name" className={inputCls} autoFocus {...register("name")} />
           {errors.name && <p className={errText}>{errors.name.message}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium mb-1" htmlFor="uni-address">
             Адреса
           </label>
-          <input id="uni-address" className={fieldCls} {...register("address")} />
+          <input id="uni-address" className={inputCls} {...register("address")} />
           {errors.address && <p className={errText}>{errors.address.message}</p>}
         </div>
         <div className="flex justify-end gap-3 pt-2">

@@ -10,11 +10,12 @@ interface ConfirmDialogProps {
 /** Діалог підтвердження незворотної дії (вимога методички про цілісність даних). */
 export default function ConfirmDialog({ open, message, onConfirm, onCancel }: ConfirmDialogProps) {
   return (
-    <Modal open={open} onClose={onCancel} title="Підтвердження">
+    <Modal open={open} onClose={onCancel} title="Підтвердження" hint="Esc — скасувати">
       <p className="mb-6 text-gray-700">{message}</p>
       <div className="flex justify-end gap-3">
-        {/* Фокус за замовчуванням Radix ставить на першу кнопку — «Ні»:
-            безпечний дефолт для незворотної дії (Enter не видалить випадково) */}
+        {/* Фокус за замовчуванням Radix ставить на перший табельний елемент —
+            кнопку «×» у Modal: безпечний дефолт для незворотної дії
+            (Enter не видалить випадково) */}
         <button
           onClick={onCancel}
           className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100"
@@ -28,9 +29,6 @@ export default function ConfirmDialog({ open, message, onConfirm, onCancel }: Co
           Так, видалити
         </button>
       </div>
-      <p className="mt-3 text-xs text-gray-400 text-center">
-        Esc — скасувати
-      </p>
     </Modal>
   );
 }

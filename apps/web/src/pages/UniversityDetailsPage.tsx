@@ -6,8 +6,7 @@ import type { Specialty, SpecialtyInput, UniversityInput } from "../types";
 import SpecialtyForm from "../components/SpecialtyForm";
 import UniversityForm from "../components/UniversityForm";
 import ConfirmDialog from "../components/ConfirmDialog";
-
-const dash = (v: number | null) => (v == null ? "—" : v.toFixed(1));
+import { dash } from "../lib/ui";
 
 /** Сторінка вузу: «все щодо обраного вузу» — деталі + CRUD його спеціальностей. */
 export default function UniversityDetailsPage() {
@@ -125,12 +124,16 @@ export default function UniversityDetailsPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => { setEditingSpec(s); setSpecFormOpen(true); }}
+                      aria-label="Редагувати"
+                      title="Редагувати"
                       className="px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-100"
                     >
                       Ред.
                     </button>
                     <button
                       onClick={() => setDeletingSpec(s)}
+                      aria-label="Видалити"
+                      title="Видалити"
                       className="px-2 py-1 text-xs rounded border border-red-300 text-red-600 hover:bg-red-50"
                     >
                       Вид.

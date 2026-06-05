@@ -16,6 +16,12 @@ export default function HelpDialog({ open, onClose }: HelpDialogProps) {
   return (
     <Modal open={open} onClose={onClose} title="Допомога — клавіатура">
       <table className="w-full text-sm">
+        <thead className="sr-only">
+          <tr>
+            <th scope="col">Клавіша</th>
+            <th scope="col">Дія</th>
+          </tr>
+        </thead>
         <tbody>
           {rows.map(([key, desc]) => (
             <tr key={key} className="border-t border-gray-100">

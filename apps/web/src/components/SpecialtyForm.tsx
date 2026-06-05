@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useEffect } from "react";
 import Modal from "./Modal";
 import { ApiValidationError } from "../api";
+import { inputCls } from "../lib/ui";
 import type { Specialty, SpecialtyInput } from "../types";
 
 /** Порожній рядок → null («форма не ведеться»), інакше — число ≥ 0. */
@@ -79,29 +80,28 @@ export default function SpecialtyForm({ open, initial, onSubmit, onClose }: Spec
     }
   });
 
-  const field = "w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
   const errText = "text-sm text-red-600 mt-1";
 
   return (
     <Modal open={open} onClose={onClose}
       title={initial ? "Редагування спеціальності" : "Додавання спеціальності"}
-      showHint>
+      hint="Enter — зберегти · Esc — скасувати">
       <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="sp-code">Код</label>
-            <input id="sp-code" className={field} autoFocus {...register("code")} />
+            <input id="sp-code" className={inputCls} autoFocus {...register("code")} />
             {errors.code && <p className={errText}>{errors.code.message}</p>}
           </div>
           <div className="col-span-2">
             <label className="block text-sm font-medium mb-1" htmlFor="sp-name">Назва</label>
-            <input id="sp-name" className={field} {...register("name")} />
+            <input id="sp-name" className={inputCls} {...register("name")} />
             {errors.name && <p className={errText}>{errors.name.message}</p>}
           </div>
         </div>
         <div>
           <label className="block text-sm font-medium mb-1" htmlFor="sp-price">Вартість контракту, грн/рік</label>
-          <input id="sp-price" type="number" className={field} {...register("contractPrice")} />
+          <input id="sp-price" type="number" className={inputCls} {...register("contractPrice")} />
           {errors.contractPrice && <p className={errText}>{errors.contractPrice.message}</p>}
         </div>
         <fieldset>
@@ -111,15 +111,15 @@ export default function SpecialtyForm({ open, initial, onSubmit, onClose }: Spec
           <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-xs text-gray-500 mb-1" htmlFor="sp-ft">Денна</label>
-              <input id="sp-ft" type="number" step="0.1" className={field} {...register("fullTime")} />
+              <input id="sp-ft" type="number" step="0.1" className={inputCls} {...register("fullTime")} />
             </div>
             <div>
               <label className="block text-xs text-gray-500 mb-1" htmlFor="sp-ev">Вечірня</label>
-              <input id="sp-ev" type="number" step="0.1" className={field} {...register("evening")} />
+              <input id="sp-ev" type="number" step="0.1" className={inputCls} {...register("evening")} />
             </div>
             <div>
               <label className="block text-xs text-gray-500 mb-1" htmlFor="sp-pt">Заочна</label>
-              <input id="sp-pt" type="number" step="0.1" className={field} {...register("partTime")} />
+              <input id="sp-pt" type="number" step="0.1" className={inputCls} {...register("partTime")} />
             </div>
           </div>
           {errors.fullTime && <p className={errText}>{errors.fullTime.message}</p>}

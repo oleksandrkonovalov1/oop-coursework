@@ -3,11 +3,11 @@ import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 import type { StudyForm } from "../types";
+import { dash } from "../lib/ui";
 
 const FORM_LABELS: Record<StudyForm, string> = {
   FullTime: "денна", Evening: "вечірня", PartTime: "заочна",
 };
-const dash = (v: number | null) => (v == null ? "—" : v.toFixed(1));
 
 /** Сторінка запитів: «все щодо обраної спеціальності», мінімальний конкурс, фільтр оплати. */
 export default function SpecialtiesPage() {
@@ -65,6 +65,7 @@ export default function SpecialtiesPage() {
             <div className="flex flex-col gap-1 shrink-0">
               <span className="font-medium text-sm">Мінімальний конкурс</span>
               <select value={form} onChange={(e) => setForm(e.target.value as StudyForm)}
+                aria-label="Форма навчання"
                 className="rounded-md border border-gray-300 px-2 py-1 bg-white text-sm">
                 {Object.entries(FORM_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
