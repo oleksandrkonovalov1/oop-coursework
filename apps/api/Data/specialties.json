@@ -1,0 +1,362 @@
+[
+  {
+    "Id": "798f25e5-fe10-4d28-9f69-cefab53cb715",
+    "UniversityId": "641e956e-ea69-4357-92f8-0511ce2eb2c6",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 32000.0,
+    "Competition": {
+      "FullTime": 7.5,
+      "Evening": null,
+      "PartTime": 2.0
+    }
+  },
+  {
+    "Id": "4b24d74b-3e4b-47d0-a9eb-fbf0a9b17af5",
+    "UniversityId": "641e956e-ea69-4357-92f8-0511ce2eb2c6",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 30000.0,
+    "Competition": {
+      "FullTime": 6.1,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "809b3292-66d9-4d4c-9af5-ff395ed2d46e",
+    "UniversityId": "641e956e-ea69-4357-92f8-0511ce2eb2c6",
+    "Code": "125",
+    "Name": "Кібербезпека",
+    "ContractPrice": 31000.0,
+    "Competition": {
+      "FullTime": 5.8,
+      "Evening": 1.5,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "fdb65187-2acc-427a-a4a1-8938280464b8",
+    "UniversityId": "641e956e-ea69-4357-92f8-0511ce2eb2c6",
+    "Code": "123",
+    "Name": "Комп'ютерна інженерія",
+    "ContractPrice": 28000.0,
+    "Competition": {
+      "FullTime": 4.9,
+      "Evening": null,
+      "PartTime": 1.8
+    }
+  },
+  {
+    "Id": "31aeb780-87a3-4c97-8b0e-386d3ed0f1ec",
+    "UniversityId": "e15d5a31-a6a5-43d1-a670-e573edf0f80b",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 45000.0,
+    "Competition": {
+      "FullTime": 9.1,
+      "Evening": 3.0,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "65d2224b-4736-455a-a3f7-3d9db74e6807",
+    "UniversityId": "e15d5a31-a6a5-43d1-a670-e573edf0f80b",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 42000.0,
+    "Competition": {
+      "FullTime": 8.4,
+      "Evening": null,
+      "PartTime": 2.5
+    }
+  },
+  {
+    "Id": "41090f15-fd2a-40d1-aca7-fb2566137831",
+    "UniversityId": "e15d5a31-a6a5-43d1-a670-e573edf0f80b",
+    "Code": "113",
+    "Name": "Прикладна математика",
+    "ContractPrice": 35000.0,
+    "Competition": {
+      "FullTime": 5.2,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "774c2632-e030-4b6e-a928-68def478f036",
+    "UniversityId": "e15d5a31-a6a5-43d1-a670-e573edf0f80b",
+    "Code": "104",
+    "Name": "Фізика та астрономія",
+    "ContractPrice": 30000.0,
+    "Competition": {
+      "FullTime": 2.8,
+      "Evening": null,
+      "PartTime": 1.1
+    }
+  },
+  {
+    "Id": "3c1aa1d7-9e81-4bdd-8d79-17092ec12f16",
+    "UniversityId": "e3a475d0-7a31-44df-a632-b78114556ec5",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 44000.0,
+    "Competition": {
+      "FullTime": 8.7,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "b2a240b3-ca78-4277-8a6d-0d23e4677236",
+    "UniversityId": "e3a475d0-7a31-44df-a632-b78114556ec5",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 41000.0,
+    "Competition": {
+      "FullTime": 7.9,
+      "Evening": 2.2,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "8d0e9ce3-e1a8-4758-9314-a5ec1481c094",
+    "UniversityId": "e3a475d0-7a31-44df-a632-b78114556ec5",
+    "Code": "081",
+    "Name": "Право",
+    "ContractPrice": 52000.0,
+    "Competition": {
+      "FullTime": 11.3,
+      "Evening": 4.0,
+      "PartTime": 3.5
+    }
+  },
+  {
+    "Id": "084bd2c0-8182-4eca-9df2-e60a55e7539c",
+    "UniversityId": "e3a475d0-7a31-44df-a632-b78114556ec5",
+    "Code": "035",
+    "Name": "Філологія",
+    "ContractPrice": 38000.0,
+    "Competition": {
+      "FullTime": 6.6,
+      "Evening": null,
+      "PartTime": 2.0
+    }
+  },
+  {
+    "Id": "91bdbb15-08b1-49c9-9e2a-e7db121eb52c",
+    "UniversityId": "982bf88c-d8d1-4fd4-9915-817c5d23cdc4",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 25000.0,
+    "Competition": {
+      "FullTime": null,
+      "Evening": null,
+      "PartTime": 1.4
+    }
+  },
+  {
+    "Id": "96f6ed24-e74b-487e-871c-b6e01a0b199b",
+    "UniversityId": "982bf88c-d8d1-4fd4-9915-817c5d23cdc4",
+    "Code": "113",
+    "Name": "Прикладна математика",
+    "ContractPrice": 24000.0,
+    "Competition": {
+      "FullTime": 3.7,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "04f88237-7511-44a7-8c5d-c9ebb9e9ec73",
+    "UniversityId": "982bf88c-d8d1-4fd4-9915-817c5d23cdc4",
+    "Code": "081",
+    "Name": "Право",
+    "ContractPrice": 35000.0,
+    "Competition": {
+      "FullTime": 9.8,
+      "Evening": null,
+      "PartTime": 2.9
+    }
+  },
+  {
+    "Id": "9f3d4ba8-8331-4853-8ba6-6ee4da8d9a20",
+    "UniversityId": "982bf88c-d8d1-4fd4-9915-817c5d23cdc4",
+    "Code": "035",
+    "Name": "Філологія",
+    "ContractPrice": 26000.0,
+    "Competition": {
+      "FullTime": 5.4,
+      "Evening": 1.2,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "0064e973-393c-4657-a52b-f622562f0b3e",
+    "UniversityId": "6f59d39a-8258-4d58-84df-210fe468156d",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 36000.0,
+    "Competition": {
+      "FullTime": 8.2,
+      "Evening": 2.4,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "68554017-3890-4e7d-a201-36258ab2cdc5",
+    "UniversityId": "6f59d39a-8258-4d58-84df-210fe468156d",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 34000.0,
+    "Competition": {
+      "FullTime": 7.3,
+      "Evening": null,
+      "PartTime": 2.2
+    }
+  },
+  {
+    "Id": "b60d81a8-af8f-4a0e-a332-107f80927004",
+    "UniversityId": "6f59d39a-8258-4d58-84df-210fe468156d",
+    "Code": "125",
+    "Name": "Кібербезпека",
+    "ContractPrice": 35000.0,
+    "Competition": {
+      "FullTime": 6.4,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "8ecbb4b1-6090-437f-8c4e-de356dc1d28f",
+    "UniversityId": "6f59d39a-8258-4d58-84df-210fe468156d",
+    "Code": "123",
+    "Name": "Комп'ютерна інженерія",
+    "ContractPrice": 30000.0,
+    "Competition": {
+      "FullTime": 5.1,
+      "Evening": 1.6,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "5ce68d64-16a1-426c-956d-9dd6e1135428",
+    "UniversityId": "3fc36815-a7b8-411b-950e-bca8dc3476d3",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 29000.0,
+    "Competition": {
+      "FullTime": 6.0,
+      "Evening": null,
+      "PartTime": 1.9
+    }
+  },
+  {
+    "Id": "c0c37021-2c92-4aa0-882b-6e006e33b335",
+    "UniversityId": "3fc36815-a7b8-411b-950e-bca8dc3476d3",
+    "Code": "113",
+    "Name": "Прикладна математика",
+    "ContractPrice": 23000.0,
+    "Competition": {
+      "FullTime": 3.2,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "0a08ace2-1cae-4248-8b92-5be86ea82407",
+    "UniversityId": "3fc36815-a7b8-411b-950e-bca8dc3476d3",
+    "Code": "104",
+    "Name": "Фізика та астрономія",
+    "ContractPrice": 22000.0,
+    "Competition": {
+      "FullTime": 2.1,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "5c53a3a1-c6ca-4a07-b0a8-29af58720982",
+    "UniversityId": "77f6cf91-ff93-4fca-a3ad-dc26b372547c",
+    "Code": "125",
+    "Name": "Кібербезпека",
+    "ContractPrice": 27000.0,
+    "Competition": {
+      "FullTime": 4.5,
+      "Evening": null,
+      "PartTime": 1.3
+    }
+  },
+  {
+    "Id": "dbb9fb3b-2dd4-4eba-9045-332fe832fc94",
+    "UniversityId": "77f6cf91-ff93-4fca-a3ad-dc26b372547c",
+    "Code": "081",
+    "Name": "Право",
+    "ContractPrice": 33000.0,
+    "Competition": {
+      "FullTime": 8.9,
+      "Evening": 3.1,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "83178d7d-9252-43b7-afa1-6e85d1bc9d84",
+    "UniversityId": "77f6cf91-ff93-4fca-a3ad-dc26b372547c",
+    "Code": "035",
+    "Name": "Філологія",
+    "ContractPrice": 24000.0,
+    "Competition": {
+      "FullTime": 4.8,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "d259479d-9f55-4e2c-9389-36b57977011c",
+    "UniversityId": "77f6cf91-ff93-4fca-a3ad-dc26b372547c",
+    "Code": "073",
+    "Name": "Менеджмент",
+    "ContractPrice": 21000.0,
+    "Competition": {
+      "FullTime": 3.3,
+      "Evening": null,
+      "PartTime": 1.2
+    }
+  },
+  {
+    "Id": "add372a5-b66f-46f2-b6a5-c2fa5631d1e1",
+    "UniversityId": "76415803-93f8-410a-ad81-89c73e3b8610",
+    "Code": "121",
+    "Name": "Інженерія програмного забезпечення",
+    "ContractPrice": 22000.0,
+    "Competition": {
+      "FullTime": 4.2,
+      "Evening": null,
+      "PartTime": 1.0
+    }
+  },
+  {
+    "Id": "c7b08316-d506-42a2-929b-a46dfd130a69",
+    "UniversityId": "76415803-93f8-410a-ad81-89c73e3b8610",
+    "Code": "122",
+    "Name": "Комп'ютерні науки",
+    "ContractPrice": 21000.0,
+    "Competition": {
+      "FullTime": 3.9,
+      "Evening": null,
+      "PartTime": null
+    }
+  },
+  {
+    "Id": "ca178a6c-4e1d-474b-8228-90fa712bf894",
+    "UniversityId": "76415803-93f8-410a-ad81-89c73e3b8610",
+    "Code": "073",
+    "Name": "Менеджмент",
+    "ContractPrice": 20000.0,
+    "Competition": {
+      "FullTime": 3.5,
+      "Evening": 1.1,
+      "PartTime": 1.6
+    }
+  }
+]
