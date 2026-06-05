@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 import type { StudyForm } from "../types";
-import { dash } from "../lib/ui";
+import { dash, inputCls } from "../lib/ui";
 
 const FORM_LABELS: Record<StudyForm, string> = {
   FullTime: "денна", Evening: "вечірня", PartTime: "заочна",
@@ -49,7 +49,7 @@ export default function SpecialtiesPage() {
           <input id="max-price" type="number" value={maxPriceText}
             onChange={(e) => setMaxPriceText(e.target.value)}
             placeholder="без обмеження"
-            className="w-full rounded-md border border-gray-300 px-3 py-2" />
+            className={inputCls} />
           {priceInvalid && <p className="text-sm text-red-600 mt-1">Введіть додатне число</p>}
         </div>
       </div>
