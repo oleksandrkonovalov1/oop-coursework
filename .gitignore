@@ -5,3 +5,6 @@ dist/
 *.user
 apps/api/wwwroot/
 .DS_Store
+
+# LibreOffice lock-файли
+.~lock.*#

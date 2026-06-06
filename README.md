@@ -24,9 +24,3 @@ pnpm dev        # API на :5080 + Vite dev-сервер на :5173
 ```bash
 dotnet test
 ```
-
-## Записка
-
-```bash
-pnpm report     # → reports/coursework/2026_ПІ_ООП_ПЗПІ-25-6_Коновалов_О_О.docx
-```
