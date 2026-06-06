@@ -3,9 +3,12 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
-import UniversitiesPage from "./pages/UniversitiesPage";
-import UniversityDetailsPage from "./pages/UniversityDetailsPage";
-import SpecialtiesPage from "./pages/SpecialtiesPage";
+import AdminApp from "./AdminApp";
+import UniversitiesPage from "./pages/public/UniversitiesPage";
+import UniversityDetailsPage from "./pages/public/UniversityDetailsPage";
+import SpecialtiesPage from "./pages/public/SpecialtiesPage";
+import AdminUniversitiesPage from "./pages/admin/AdminUniversitiesPage";
+import AdminUniversityDetailsPage from "./pages/admin/AdminUniversityDetailsPage";
 import "./index.css";
 
 const queryClient = new QueryClient({
@@ -13,6 +16,7 @@ const queryClient = new QueryClient({
 });
 
 const router = createBrowserRouter([
+  // Публічна частина (абітурієнт, лише читання)
   {
     path: "/",
     element: <App />,
@@ -21,6 +25,15 @@ const router = createBrowserRouter([
       { path: "universities", element: <UniversitiesPage /> }, // аліас — у спеці сторінка описана як /universities
       { path: "universities/:id", element: <UniversityDetailsPage /> },
       { path: "specialties", element: <SpecialtiesPage /> },
+    ],
+  },
+  // Приватна частина (адмінка — розділення лише за URL, без авторизації)
+  {
+    path: "/admin",
+    element: <AdminApp />,
+    children: [
+      { index: true, element: <AdminUniversitiesPage /> },
+      { path: "universities/:id", element: <AdminUniversityDetailsPage /> },
     ],
   },
 ]);

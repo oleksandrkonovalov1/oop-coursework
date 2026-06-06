@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../api";
-import type { Specialty, SpecialtyInput, UniversityInput } from "../types";
-import SpecialtyForm from "../components/SpecialtyForm";
-import UniversityForm from "../components/UniversityForm";
-import ConfirmDialog from "../components/ConfirmDialog";
-import { dash } from "../lib/ui";
+import { api } from "../../api";
+import type { Specialty, SpecialtyInput, UniversityInput } from "../../types";
+import SpecialtyTable from "../../components/SpecialtyTable";
+import RowActions from "../../components/RowActions";
+import SpecialtyForm from "../../components/SpecialtyForm";
+import UniversityForm from "../../components/UniversityForm";
+import ConfirmDialog from "../../components/ConfirmDialog";
 
-/** Сторінка вузу: «все щодо обраного вузу» — деталі + CRUD його спеціальностей. */
-export default function UniversityDetailsPage() {
+/** Адмін-сторінка вузу: деталі + повний CRUD його спеціальностей і самого вузу. */
+export default function AdminUniversityDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -44,28 +45,26 @@ export default function UniversityDetailsPage() {
   });
   const removeUni = useMutation({
     mutationFn: () => api.deleteUniversity(id!),
-    onSuccess: () => navigate("/"),
+    onSuccess: () => navigate("/admin"),
   });
 
   if (isLoading) return <p className="text-gray-500">Завантаження…</p>;
-  if (!data) return <p className="text-gray-500">Вуз не знайдено. <Link to="/" className="text-blue-700">До списку</Link></p>;
+  if (!data) return <p className="text-gray-500">Вуз не знайдено. <Link to="/admin" className="text-blue-700">До списку</Link></p>;
 
   return (
     <div>
-      {/* Breadcrumb: «Вузи / <назва>» (wireframe-03 approved deviation) */}
+      {/* Breadcrumb: «Вузи / <назва>» */}
       <nav className="text-sm text-gray-500 mb-3">
-        <Link to="/" className="text-blue-700 hover:underline">Вузи</Link>
+        <Link to="/admin" className="text-blue-700 hover:underline">Вузи</Link>
         <span className="mx-1">/</span>
         <span>{data.university.name}</span>
       </nav>
 
-      {/* Header: назва + address сірим + ghost-кнопки праворуч */}
       <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-2xl font-semibold">{data.university.name}</h1>
           <p className="text-gray-500 text-sm mt-0.5">Адреса: {data.university.address}</p>
         </div>
-        {/* Ghost buttons per wireframe-03 approved deviations */}
         <div className="flex gap-2 mt-1">
           <button
             onClick={() => setUniFormOpen(true)}
@@ -82,7 +81,6 @@ export default function UniversityDetailsPage() {
         </div>
       </div>
 
-      {/* Specialties section header with badge (wireframe-03 approved deviation) */}
       <div className="flex items-center gap-3 justify-between mb-3">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-medium">Спеціальності</h2>
@@ -99,51 +97,15 @@ export default function UniversityDetailsPage() {
       </div>
 
       {data.specialties.length > 0 ? (
-        <table className="w-full bg-white rounded-lg shadow overflow-hidden text-sm">
-          <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="px-3 py-2">Код</th>
-              <th className="px-3 py-2">Назва</th>
-              <th className="px-3 py-2 text-right">Денна</th>
-              <th className="px-3 py-2 text-right">Вечірня</th>
-              <th className="px-3 py-2 text-right">Заочна</th>
-              <th className="px-3 py-2 text-right">Контракт, грн/рік</th>
-              <th className="px-3 py-2 w-36">Дії</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.specialties.map((s) => (
-              <tr key={s.id} className="border-t border-gray-100">
-                <td className="px-3 py-2">{s.code}</td>
-                <td className="px-3 py-2">{s.name}</td>
-                <td className="px-3 py-2 text-right">{dash(s.competition.fullTime)}</td>
-                <td className="px-3 py-2 text-right">{dash(s.competition.evening)}</td>
-                <td className="px-3 py-2 text-right">{dash(s.competition.partTime)}</td>
-                <td className="px-3 py-2 text-right">{s.contractPrice.toLocaleString("uk-UA")}</td>
-                <td className="px-3 py-2">
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => { setEditingSpec(s); setSpecFormOpen(true); }}
-                      aria-label="Редагувати"
-                      title="Редагувати"
-                      className="px-2 py-1 text-xs rounded border border-gray-300 hover:bg-gray-100"
-                    >
-                      Ред.
-                    </button>
-                    <button
-                      onClick={() => setDeletingSpec(s)}
-                      aria-label="Видалити"
-                      title="Видалити"
-                      className="px-2 py-1 text-xs rounded border border-red-300 text-red-600 hover:bg-red-50"
-                    >
-                      Вид.
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <SpecialtyTable
+          specialties={data.specialties}
+          renderActions={(s) => (
+            <RowActions
+              onEdit={() => { setEditingSpec(s); setSpecFormOpen(true); }}
+              onDelete={() => setDeletingSpec(s)}
+            />
+          )}
+        />
       ) : (
         <p className="text-gray-500">У цього вузу ще немає спеціальностей.</p>
       )}

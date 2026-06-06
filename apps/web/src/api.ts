@@ -18,13 +18,16 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     ...init,
   });
   if (res.status === 400) {
-    // Наш формат — {errors: {поле: "рядок"}}. Авто-400 від [ApiController] має іншу форму
-    // (значення-масиви) — такі віддаємо як загальну помилку, а не в поля форми.
-    const body = (await res.json().catch(() => null)) as { errors?: Record<string, unknown> } | null;
-    const entries = Object.entries(body?.errors ?? {});
-    if (entries.length > 0 && entries.every(([, v]) => typeof v === "string"))
-      throw new ApiValidationError(body!.errors as FieldErrors);
-    throw new Error("Некоректний запит до сервера");
+    // RFC 9457 ValidationProblemDetails: errors — об'єкт {поле: [повідомлення, …]}.
+    // Сплющуємо до {поле: перше_повідомлення}, бо форми читають значення як рядок.
+    const body = (await res.json().catch(() => null)) as
+      | { title?: string; errors?: Record<string, string[]> }
+      | null;
+    const fieldErrors: FieldErrors = {};
+    for (const [field, messages] of Object.entries(body?.errors ?? {}))
+      if (messages?.length) fieldErrors[field] = messages[0];
+    if (Object.keys(fieldErrors).length > 0) throw new ApiValidationError(fieldErrors);
+    throw new Error(body?.title ?? "Помилка сервера");
   }
   if (!res.ok) throw new Error("Помилка сервера. Спробуйте ще раз.");
   if (res.status === 204) return undefined as T;
@@ -52,10 +55,8 @@ export const api = {
   offers: (name: string, maxPrice: number | null) =>
     request<SpecialtyOffer[]>(
       `/api/specialties/offers?name=${encodeURIComponent(name)}${maxPrice != null ? `&maxPrice=${maxPrice}` : ""}`),
-  minCompetition: async (name: string, form: StudyForm) => {
-    const res = await fetch(`/api/specialties/min-competition?name=${encodeURIComponent(name)}&form=${form}`);
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Помилка сервера (${res.status})`);
-    return (await res.json()) as MinCompetitionResult;
-  },
+  // Завжди 200; тіло — MinCompetitionResult або null (за обраною формою даних немає).
+  minCompetition: (name: string, form: StudyForm) =>
+    request<MinCompetitionResult | null>(
+      `/api/specialties/min-competition?name=${encodeURIComponent(name)}&form=${form}`),
 };
