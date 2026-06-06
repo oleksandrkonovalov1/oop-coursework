@@ -7,7 +7,7 @@
 
 import {
   Document, Packer, Paragraph, TextRun, Header,
-  AlignmentType, PageNumber, TableOfContents,
+  AlignmentType, PageNumber, TabStopType, LeaderType,
   Table, TableRow, TableCell, WidthType, VerticalAlign,
 } from "docx";
 import { writeFileSync } from "fs";
@@ -15,7 +15,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 import {
-  FONT, BODY_SIZE, LINE_15, FIRST_LINE, margins,
+  FONT, BODY_SIZE, LINE_15, FIRST_LINE, margins, MM_TO_DXA,
   run, centered, emptyLine, body, h1, h2, plainHeading, figure,
 } from "./content/helpers.mjs";
 import { introParagraphs } from "./content/intro.mjs";
@@ -24,6 +24,7 @@ import { functionsContent } from "./content/functions.mjs";
 import { designContent } from "./content/design.mjs";
 import { conclusionsParagraphs } from "./content/conclusions.mjs";
 import { sources } from "./content/sources.mjs";
+import { tocEntries } from "./content/toc-data.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -195,9 +196,20 @@ const abstract = [
 
 // ─── ЗМІСТ ───────────────────────────────────────────────────────────
 
+// Статичний зміст (а не Word-поле TableOfContents): видимий у будь-якому
+// переглядачі — LibreOffice, превʼю кафедрального диска, друк — без «оновити поле».
+// Номери сторінок вимірюються update-toc.mjs з фінального PDF.
+const CONTENT_RIGHT = 11906 - margins.left - margins.right; // правий край тексту, DXA
+const tocLine = (e) =>
+  new Paragraph({
+    tabStops: [{ type: TabStopType.RIGHT, position: CONTENT_RIGHT, leader: LeaderType.DOT }],
+    indent: e.indent ? { left: Math.round(5 * MM_TO_DXA) } : undefined,
+    spacing: { line: LINE_15 },
+    children: [run(e.text), run("\t" + e.page)],
+  });
 const tableOfContents = [
   plainHeading("ЗМІСТ"),
-  new TableOfContents("Зміст", { hyperlink: true, headingStyleRange: "1-2" }),
+  ...tocEntries.map(tocLine),
 ];
 
 // ─── ВСТУП ───────────────────────────────────────────────────────────
@@ -283,7 +295,6 @@ const pageSetup = {
 };
 
 const doc = new Document({
-  features: { updateFields: true }, // Word запропонує оновити поле змісту
   styles: {
     default: {
       document: {
