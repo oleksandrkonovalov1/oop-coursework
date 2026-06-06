@@ -7,7 +7,6 @@ import { ApiValidationError } from "../api";
 import { inputCls } from "../lib/ui";
 import type { Specialty, SpecialtyInput } from "../types";
 
-/** Порожній рядок → null («форма не ведеться»), інакше — число в межах 0–100 осіб на місце. */
 const formValue = z.preprocess(
   (v) => (v === "" || v == null ? null : Number(v)),
   z.number({ message: "Введіть число" })
@@ -35,8 +34,6 @@ const schema = z
     path: ["fullTime"],
   });
 
-// КРИТИЧНО: схема з z.preprocess має різні input/output типи (input = unknown),
-// тому useForm потребує ТРИ дженерики — інакше TS2322 у strict-збірці
 type FormInput = z.input<typeof schema>;
 type FormOutput = z.output<typeof schema>;
 
@@ -47,7 +44,6 @@ interface SpecialtyFormProps {
   onClose: () => void;
 }
 
-/** Форма додавання/редагування спеціальності з конкурсами за формами навчання. */
 export default function SpecialtyForm({ open, initial, onSubmit, onClose }: SpecialtyFormProps) {
   const { register, handleSubmit, reset, setError, formState: { errors, isSubmitting } } =
     useForm<FormInput, unknown, FormOutput>({ resolver: zodResolver(schema) });

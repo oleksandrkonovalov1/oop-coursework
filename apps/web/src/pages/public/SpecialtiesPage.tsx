@@ -6,7 +6,6 @@ import { inputCls } from "../../lib/ui";
 import MinCompetitionCard from "../../components/MinCompetitionCard";
 import OffersTable from "../../components/OffersTable";
 
-/** Публічна сторінка запитів: «все щодо обраної спеціальності» — мін. конкурс, фільтр оплати. */
 export default function SpecialtiesPage() {
   const [name, setName] = useState("");
   const [maxPriceText, setMaxPriceText] = useState("");
@@ -30,7 +29,6 @@ export default function SpecialtiesPage() {
     <div>
       <h1 className="text-2xl font-bold mb-5">Спеціальності</h1>
 
-      {/* Filters */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block text-sm font-medium mb-1" htmlFor="spec-select">Спеціальність</label>

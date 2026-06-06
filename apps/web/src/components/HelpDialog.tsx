@@ -5,7 +5,6 @@ interface HelpDialogProps {
   onClose: () => void;
 }
 
-/** Довідка про клавіатурні скорочення (адаптація вимоги методички: F1 → «?»). */
 export default function HelpDialog({ open, onClose }: HelpDialogProps) {
   const rows: [string, string][] = [
     ["Enter", "Підтвердити форму (зберегти)"],

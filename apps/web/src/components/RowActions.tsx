@@ -3,7 +3,6 @@ interface RowActionsProps {
   onDelete: () => void;
 }
 
-/** Пара кнопок «Ред./Вид.» у рядку таблиці — спільна для адмін-таблиць вузів і спеціальностей. */
 export default function RowActions({ onEdit, onDelete }: RowActionsProps) {
   return (
     <div className="flex gap-2">

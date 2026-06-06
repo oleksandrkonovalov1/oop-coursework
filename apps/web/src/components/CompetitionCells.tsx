@@ -1,7 +1,6 @@
 import { dash } from "../lib/ui";
 import type { Competition } from "../types";
 
-/** Заголовки колонок конкурсу за формами + контракт — спільні для таблиць спеціальностей і пропозицій. */
 export function CompetitionHeadCells() {
   return (
     <>
@@ -13,7 +12,6 @@ export function CompetitionHeadCells() {
   );
 }
 
-/** Комірки конкурсу за формами навчання + контракт — спільні для таблиць спеціальностей і пропозицій. */
 export function CompetitionBodyCells({
   competition,
   contractPrice,

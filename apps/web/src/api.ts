@@ -3,7 +3,6 @@ import type {
   SpecialtyOffer, StudyForm, University, UniversityDetails, UniversityInput,
 } from "./types";
 
-/** Помилка валідації від сервера (статус 400) з повідомленнями за полями. */
 export class ApiValidationError extends Error {
   errors: FieldErrors;
   constructor(errors: FieldErrors) {
@@ -18,8 +17,6 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     ...init,
   });
   if (res.status === 400) {
-    // RFC 9457 ValidationProblemDetails: errors — об'єкт {поле: [повідомлення, …]}.
-    // Сплющуємо до {поле: перше_повідомлення}, бо форми читають значення як рядок.
     const body = (await res.json().catch(() => null)) as
       | { title?: string; errors?: Record<string, string[]> }
       | null;
@@ -30,8 +27,6 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     throw new Error(body?.title ?? "Помилка сервера");
   }
   if (!res.ok) {
-    // Решта помилок теж у форматі ProblemDetails ({title}). 404 (запис видалено/не існує)
-    // показуємо зрозуміло з підказкою оновити сторінку, а не як «помилку сервера».
     const body = (await res.json().catch(() => null)) as { title?: string } | null;
     if (res.status === 404)
       throw new Error(`${body?.title ?? "Запис не знайдено"} — можливо, його видалено. Оновіть сторінку.`);
@@ -62,7 +57,6 @@ export const api = {
   offers: (name: string, maxPrice: number | null) =>
     request<SpecialtyOffer[]>(
       `/api/specialties/offers?name=${encodeURIComponent(name)}${maxPrice != null ? `&maxPrice=${maxPrice}` : ""}`),
-  // Завжди 200; тіло — MinCompetitionResult або null (за обраною формою даних немає).
   minCompetition: (name: string, form: StudyForm) =>
     request<MinCompetitionResult | null>(
       `/api/specialties/min-competition?name=${encodeURIComponent(name)}&form=${form}`),

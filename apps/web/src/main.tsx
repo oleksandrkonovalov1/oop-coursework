@@ -16,18 +16,16 @@ const queryClient = new QueryClient({
 });
 
 const router = createBrowserRouter([
-  // Публічна частина (абітурієнт, лише читання)
   {
     path: "/",
     element: <App />,
     children: [
       { index: true, element: <UniversitiesPage /> },
-      { path: "universities", element: <UniversitiesPage /> }, // аліас — у спеці сторінка описана як /universities
+      { path: "universities", element: <UniversitiesPage /> },
       { path: "universities/:id", element: <UniversityDetailsPage /> },
       { path: "specialties", element: <SpecialtiesPage /> },
     ],
   },
-  // Приватна частина (адмінка — розділення лише за URL, без авторизації)
   {
     path: "/admin",
     element: <AdminApp />,

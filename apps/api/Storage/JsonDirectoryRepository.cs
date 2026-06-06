@@ -3,11 +3,6 @@ using Newtonsoft.Json;
 
 namespace AbiturientDirectory.Storage;
 
-/// <summary>
-/// Реалізація сховища поверх JSON-файлів: серіалізує колекції вузів і спеціальностей
-/// у локальні файли. Усі операції виконуються під спільним блокуванням, тож читання
-/// повертають незмінні знімки, а кожна мутація атомарно зберігає обидва файли.
-/// </summary>
 public class JsonDirectoryRepository : IDirectoryRepository
 {
     private readonly string _dataDir;
@@ -15,14 +10,10 @@ public class JsonDirectoryRepository : IDirectoryRepository
     private List<University> _universities = new();
     private List<Specialty> _specialties = new();
 
-    /// <inheritdoc/>
     public bool LoadProblem { get; private set; }
 
-    /// <summary>Створює сховище, що зберігає файли у вказаній директорії.</summary>
-    /// <param name="dataDir">Шлях до директорії з файлами даних.</param>
     public JsonDirectoryRepository(string dataDir) => _dataDir = dataDir;
 
-    /// <inheritdoc/>
     public void Load()
     {
         lock (_lock)
@@ -32,19 +23,16 @@ public class JsonDirectoryRepository : IDirectoryRepository
         }
     }
 
-    /// <inheritdoc/>
     public IReadOnlyList<University> Universities()
     {
         lock (_lock) return _universities.ToArray();
     }
 
-    /// <inheritdoc/>
     public IReadOnlyList<Specialty> Specialties()
     {
         lock (_lock) return _specialties.ToArray();
     }
 
-    /// <inheritdoc/>
     public void AddUniversity(University u)
     {
         lock (_lock)
@@ -54,14 +42,11 @@ public class JsonDirectoryRepository : IDirectoryRepository
         }
     }
 
-    /// <inheritdoc/>
     public void UpdateUniversity(University u)
     {
-        // Сутність уже в колекції за посиланням — лишається тільки зберегти стан.
         lock (_lock) Persist();
     }
 
-    /// <inheritdoc/>
     public int RemoveUniversity(University u)
     {
         lock (_lock)
@@ -73,7 +58,6 @@ public class JsonDirectoryRepository : IDirectoryRepository
         }
     }
 
-    /// <inheritdoc/>
     public void AddSpecialty(Specialty s)
     {
         lock (_lock)
@@ -83,14 +67,11 @@ public class JsonDirectoryRepository : IDirectoryRepository
         }
     }
 
-    /// <inheritdoc/>
     public void UpdateSpecialty(Specialty s)
     {
-        // Сутність уже в колекції за посиланням — лишається тільки зберегти стан.
         lock (_lock) Persist();
     }
 
-    /// <inheritdoc/>
     public void RemoveSpecialty(Specialty s)
     {
         lock (_lock)
@@ -100,7 +81,6 @@ public class JsonDirectoryRepository : IDirectoryRepository
         }
     }
 
-    /// <summary>Атомарно зберігає поточний стан обох колекцій у JSON-файли. Викликається лише під блокуванням.</summary>
     private void Persist()
     {
         Directory.CreateDirectory(_dataDir);

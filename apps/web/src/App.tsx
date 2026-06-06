@@ -3,7 +3,6 @@ import HelpDialog from "./components/HelpDialog";
 import LoadProblemBanner from "./components/LoadProblemBanner";
 import { useHelpDialog } from "./lib/useHelpDialog";
 
-/** Публічний каркас (абітурієнт): шапка з навігацією, хоткей «?», область сторінок. */
 export default function App() {
   const { helpOpen, openHelp, closeHelp } = useHelpDialog();
 
@@ -21,7 +20,6 @@ export default function App() {
             className="ml-auto w-8 h-8 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100">
             ?
           </button>
-          {/* Вхід до адмінки — символом (шестерня), щоб шапка не стрибала при переході */}
           <Link to="/admin" aria-label="Адміністрування" title="Адміністрування"
             className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}

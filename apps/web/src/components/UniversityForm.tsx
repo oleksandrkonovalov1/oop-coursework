@@ -14,12 +14,11 @@ const schema = z.object({
 
 interface UniversityFormProps {
   open: boolean;
-  initial: University | null; // null — додавання, інакше — редагування
+  initial: University | null;
   onSubmit: (input: UniversityInput) => Promise<void>;
   onClose: () => void;
 }
 
-/** Форма додавання/редагування вузу. Enter — зберегти, Esc — скасувати. */
 export default function UniversityForm({ open, initial, onSubmit, onClose }: UniversityFormProps) {
   const {
     register,

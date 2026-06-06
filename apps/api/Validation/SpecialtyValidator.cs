@@ -4,21 +4,8 @@ using AbiturientDirectory.Services;
 
 namespace AbiturientDirectory.Validation;
 
-/// <summary>
-/// Валідація даних спеціальності (SRP — окремо від сервісу).
-/// Чисті статичні методи: нормалізують значення або кидають <see cref="ValidationException"/>.
-/// </summary>
 public static class SpecialtyValidator
 {
-    /// <summary>
-    /// Перевіряє та нормалізує дані спеціальності.
-    /// </summary>
-    /// <param name="input">Введені дані форми спеціальності.</param>
-    /// <param name="existing">Поточний перелік спеціальностей для перевірки унікальності назви в межах вузу.</param>
-    /// <param name="excludeId">Ідентифікатор спеціальності, яку слід виключити з перевірки унікальності (під час редагування).</param>
-    /// <param name="universityId">Ідентифікатор вузу, у межах якого перевіряється унікальність назви.</param>
-    /// <returns>Кортеж нормалізованих коду, назви, вартості та конкурсу.</returns>
-    /// <exception cref="ValidationException">Якщо дані не пройшли перевірку.</exception>
     public static (string Code, string Name, decimal Price, Competition Competition) Validate(
         SpecialtyInput input, IReadOnlyList<Specialty> existing, Guid? excludeId, Guid universityId)
     {

@@ -4,11 +4,9 @@ import { CompetitionBodyCells, CompetitionHeadCells } from "./CompetitionCells";
 
 interface SpecialtyTableProps {
   specialties: Specialty[];
-  /** Опційний рендер комірки дій; якщо заданий — додається колонка «Дії» (адмінка). */
   renderActions?: (s: Specialty) => ReactNode;
 }
 
-/** Таблиця спеціальностей вузу — спільна для публічної та адмін-сторінки; різниця лише в наявності дій. */
 export default function SpecialtyTable({ specialties, renderActions }: SpecialtyTableProps) {
   return (
     <table className="w-full bg-white rounded-lg shadow overflow-hidden text-sm">

@@ -4,7 +4,6 @@ import { api } from "../../api";
 import UniversitiesTable from "../../components/UniversitiesTable";
 import SearchInput from "../../components/SearchInput";
 
-/** Публічний список вузів: пошук за назвою/адресою + таблиця (лише читання). */
 export default function UniversitiesPage() {
   const [query, setQuery] = useState("");
 

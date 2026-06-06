@@ -50,5 +50,4 @@ export interface SpecialtyInput {
   competition: Competition;
 }
 
-/** Помилки валідації з бекенда: поле → повідомлення українською. */
 export type FieldErrors = Record<string, string>;

@@ -20,7 +20,6 @@ public class DirectoryServiceTests : IDisposable
 
     public void Dispose() { if (Directory.Exists(_dir)) Directory.Delete(_dir, true); }
 
-    // --- CRUD вузів ---
 
     [Fact]
     public void AddUniversity_Valid_AddsAndPersists()
@@ -81,7 +80,6 @@ public class DirectoryServiceTests : IDisposable
         Assert.Empty(_svc.SearchUniversities("львів"));
     }
 
-    // --- Спеціальності ---
 
     private University Uni() => _svc.AddUniversity(new UniversityInput("ХНУРЕ", "пр. Науки, 14"));
 
@@ -194,7 +192,6 @@ public class DirectoryServiceTests : IDisposable
         Assert.Empty(_repo.Specialties());
     }
 
-    // --- Каскадне видалення ---
 
     [Fact]
     public void DeleteUniversity_CascadesSpecialties_ReturnsCount()
@@ -214,7 +211,6 @@ public class DirectoryServiceTests : IDisposable
         Assert.All(_repo.Specialties(), s => Assert.Equal(other.Id, s.UniversityId));
     }
 
-    // --- Запити завдання ---
 
     private void SeedThreeUniversities()
     {
@@ -269,7 +265,7 @@ public class DirectoryServiceTests : IDisposable
         SeedThreeUniversities();
         var result = _svc.GetMinCompetition("Інженерія програмного забезпечення", StudyForm.FullTime);
         Assert.NotNull(result);
-        Assert.Equal("ХНУРЕ", result!.University.Name); // 7.5 < 9.1; ЛНУ без денної — пропущено
+        Assert.Equal("ХНУРЕ", result!.University.Name);
         Assert.Equal(7.5m, result.Value);
     }
 

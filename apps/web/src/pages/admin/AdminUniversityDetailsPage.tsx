@@ -9,7 +9,6 @@ import SpecialtyForm from "../../components/SpecialtyForm";
 import UniversityForm from "../../components/UniversityForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 
-/** Адмін-сторінка вузу: деталі + повний CRUD його спеціальностей і самого вузу. */
 export default function AdminUniversityDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -53,7 +52,6 @@ export default function AdminUniversityDetailsPage() {
 
   return (
     <div>
-      {/* Breadcrumb: «Вузи / <назва>» */}
       <nav className="text-sm text-gray-500 mb-3">
         <Link to="/admin" className="text-blue-700 hover:underline">Вузи</Link>
         <span className="mx-1">/</span>

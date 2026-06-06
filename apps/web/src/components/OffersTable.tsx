@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import type { SpecialtyOffer } from "../types";
 import { CompetitionBodyCells, CompetitionHeadCells } from "./CompetitionCells";
 
-/** Таблиця пропозицій вузів за обраною спеціальністю (публічні запити, лише читання). */
 export default function OffersTable({ offers }: { offers: SpecialtyOffer[] }) {
   return (
     <table className="w-full bg-white rounded-lg shadow overflow-hidden text-sm">

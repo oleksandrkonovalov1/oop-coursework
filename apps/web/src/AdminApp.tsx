@@ -3,7 +3,6 @@ import HelpDialog from "./components/HelpDialog";
 import LoadProblemBanner from "./components/LoadProblemBanner";
 import { useHelpDialog } from "./lib/useHelpDialog";
 
-/** Адмін-каркас: візуально відмінна (темна) шапка з бейджем, повний CRUD, без авторизації. */
 export default function AdminApp() {
   const { helpOpen, openHelp, closeHelp } = useHelpDialog();
 
@@ -14,7 +13,6 @@ export default function AdminApp() {
       <LoadProblemBanner />
       <header className="bg-gray-900 text-white">
         <nav className="mx-auto max-w-5xl flex items-center gap-2 px-4 py-3">
-          {/* Повернення на публічний сайт — символом, ліворуч */}
           <Link to="/" aria-label="На публічний сайт" title="На публічний сайт"
             className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-500 text-gray-300 hover:bg-gray-700 mr-2">
             ←

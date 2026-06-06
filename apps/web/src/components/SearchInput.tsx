@@ -7,7 +7,6 @@ interface SearchInputProps {
   ariaLabel: string;
 }
 
-/** Текстовий пошук — спільний для публічного й адмін-списків вузів. */
 export default function SearchInput({ value, onChange, placeholder, ariaLabel }: SearchInputProps) {
   return (
     <input

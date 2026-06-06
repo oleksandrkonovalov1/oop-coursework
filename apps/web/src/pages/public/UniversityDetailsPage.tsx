@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../../api";
 import SpecialtyTable from "../../components/SpecialtyTable";
 
-/** Публічна сторінка вузу: деталі + таблиця спеціальностей (лише читання). */
 export default function UniversityDetailsPage() {
   const { id } = useParams<{ id: string }>();
 
@@ -17,7 +16,6 @@ export default function UniversityDetailsPage() {
 
   return (
     <div>
-      {/* Breadcrumb: «Вузи / <назва>» */}
       <nav className="text-sm text-gray-500 mb-3">
         <Link to="/" className="text-blue-700 hover:underline">Вузи</Link>
         <span className="mx-1">/</span>

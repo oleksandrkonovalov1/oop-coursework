@@ -8,7 +8,6 @@ import RowActions from "../../components/RowActions";
 import UniversityForm from "../../components/UniversityForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 
-/** Адмін-список вузів: пошук, таблиця з повним CRUD через модальні вікна. */
 export default function AdminUniversitiesPage() {
   const [query, setQuery] = useState("");
   const [formOpen, setFormOpen] = useState(false);

@@ -43,7 +43,6 @@ public class JsonDirectoryRepositoryTests : IDisposable
     [Fact]
     public void Universities_ReturnsSnapshot_NotBackingList()
     {
-        // Знімок не повинен дозволяти мутувати внутрішній стан сховища
         var repo = new JsonDirectoryRepository(_dir);
         repo.Load();
         repo.AddUniversity(new University { Name = "ХНУРЕ", Address = "Харків" });
@@ -106,6 +105,6 @@ public class JsonDirectoryRepositoryTests : IDisposable
         var repo = new JsonDirectoryRepository(_dir);
         repo.Load();
         Assert.Empty(repo.Universities());
-        Assert.True(repo.LoadProblem); // прапорець для повідомлення користувачу
+        Assert.True(repo.LoadProblem);
     }
 }

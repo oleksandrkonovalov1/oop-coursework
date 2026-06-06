@@ -4,13 +4,10 @@ import type { University } from "../types";
 
 interface UniversitiesTableProps {
   universities: University[];
-  /** Будує URL сторінки вузу (публічна vs адмінська). */
   hrefFor: (u: University) => string;
-  /** Опційний рендер комірки дій; якщо заданий — додається колонка «Дії» (адмінка). */
   renderActions?: (u: University) => ReactNode;
 }
 
-/** Таблиця вузів — спільна для публічного списку та адмінки; різниця лише в наявності дій. */
 export default function UniversitiesTable({ universities, hrefFor, renderActions }: UniversitiesTableProps) {
   return (
     <table className="w-full bg-white rounded-lg shadow overflow-hidden">

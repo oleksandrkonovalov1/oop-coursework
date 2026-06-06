@@ -4,19 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AbiturientDirectory.Infrastructure;
 
-/// <summary>
-/// Глобальний обробник винятків: перетворює виключення на відповіді у форматі
-/// ProblemDetails (RFC 9457) без витоку stack trace клієнту.
-/// </summary>
 public class AppExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<AppExceptionHandler> _logger;
 
-    /// <summary>Створює обробник із логером для запису неочікуваних помилок.</summary>
-    /// <param name="logger">Логер застосунку.</param>
     public AppExceptionHandler(ILogger<AppExceptionHandler> logger) => _logger = logger;
 
-    /// <inheritdoc/>
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
@@ -25,7 +18,6 @@ public class AppExceptionHandler : IExceptionHandler
         switch (exception)
         {
             case ValidationException ve:
-                // 400: помилки за полями у форматі errors: { field: ["msg"] }
                 problem = new ValidationProblemDetails(
                     ve.Errors.ToDictionary(e => e.Key, e => new[] { e.Value }))
                 {
@@ -52,7 +44,6 @@ public class AppExceptionHandler : IExceptionHandler
         }
 
         httpContext.Response.StatusCode = problem.Status!.Value;
-        // Серіалізуємо за фактичним типом (ValidationProblemDetails → поле errors не губиться)
         await httpContext.Response.WriteAsJsonAsync(
             problem, problem.GetType(), options: null,
             contentType: "application/problem+json", cancellationToken);

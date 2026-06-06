@@ -11,7 +11,6 @@ interface MinCompetitionCardProps {
   onFormChange: (form: StudyForm) => void;
 }
 
-/** Картка мінімального конкурсу: вибір форми навчання + вуз-лідер + значення (публічні запити). */
 export default function MinCompetitionCard({ min, form, onFormChange }: MinCompetitionCardProps) {
   return (
     <div className="bg-amber-100 border border-amber-300 rounded-lg p-4 mb-4 flex items-center gap-4">
