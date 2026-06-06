@@ -29,7 +29,14 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     if (Object.keys(fieldErrors).length > 0) throw new ApiValidationError(fieldErrors);
     throw new Error(body?.title ?? "Помилка сервера");
   }
-  if (!res.ok) throw new Error("Помилка сервера. Спробуйте ще раз.");
+  if (!res.ok) {
+    // Решта помилок теж у форматі ProblemDetails ({title}). 404 (запис видалено/не існує)
+    // показуємо зрозуміло з підказкою оновити сторінку, а не як «помилку сервера».
+    const body = (await res.json().catch(() => null)) as { title?: string } | null;
+    if (res.status === 404)
+      throw new Error(`${body?.title ?? "Запис не знайдено"} — можливо, його видалено. Оновіть сторінку.`);
+    throw new Error(body?.title ?? "Помилка сервера. Спробуйте ще раз.");
+  }
   if (res.status === 204) return undefined as T;
   return (await res.json()) as T;
 }
