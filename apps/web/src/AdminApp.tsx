@@ -14,19 +14,17 @@ export default function AdminApp() {
       <LoadProblemBanner />
       <header className="bg-gray-900 text-white">
         <nav className="mx-auto max-w-5xl flex items-center gap-2 px-4 py-3">
-          <span className="font-semibold text-lg mr-2">Довідник абітурієнта</span>
-          <span className="rounded bg-amber-400 text-gray-900 text-xs font-bold px-2 py-0.5 mr-4">
-            Адміністрування
-          </span>
+          {/* Повернення на публічний сайт — символом, ліворуч */}
+          <Link to="/" aria-label="На публічний сайт" title="На публічний сайт"
+            className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-500 text-gray-300 hover:bg-gray-700 mr-2">
+            ←
+          </Link>
+          <span className="font-semibold text-lg mr-4">Довідник абітурієнта</span>
           <NavLink to="/admin" className={link} end>Вузи</NavLink>
           <button onClick={openHelp} aria-label="Допомога" title="Допомога (?)"
             className="ml-auto w-8 h-8 rounded-full border border-gray-500 text-gray-300 hover:bg-gray-700">
             ?
           </button>
-          {/* Повернення на публічний сайт */}
-          <Link to="/" className="text-sm text-gray-300 hover:text-white underline">
-            ← Публічний сайт
-          </Link>
         </nav>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-6">
