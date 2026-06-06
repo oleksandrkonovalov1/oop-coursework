@@ -24,27 +24,21 @@ public class SpecialtiesController : ControllerBase
     public IActionResult Offers([FromQuery] string name, [FromQuery] decimal? maxPrice) =>
         Ok(_svc.GetOffers(name, maxPrice));
 
-    /// <summary>Мінімальний конкурс зі спеціальності за формою навчання (404 — даних немає).</summary>
+    /// <summary>Мінімальний конкурс зі спеціальності за формою навчання (200 з тілом null — даних немає).</summary>
     [HttpGet("min-competition")]
-    public IActionResult MinCompetition([FromQuery] string name, [FromQuery] StudyForm form)
-    {
-        var result = _svc.GetMinCompetition(name, form);
-        return result is null ? NotFound(new { message = "За обраною формою навчання даних немає" }) : Ok(result);
-    }
+    public IActionResult MinCompetition([FromQuery] string name, [FromQuery] StudyForm form) =>
+        Ok(_svc.GetMinCompetition(name, form));
 
     /// <summary>Редагування спеціальності.</summary>
     [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] SpecialtyInput input)
-    {
-        try { return Ok(_svc.UpdateSpecialty(id, input)); }
-        catch (KeyNotFoundException) { return NotFound(); }
-    }
+    public IActionResult Update(Guid id, [FromBody] SpecialtyInput input) =>
+        Ok(_svc.UpdateSpecialty(id, input));
 
     /// <summary>Видалення спеціальності.</summary>
     [HttpDelete("{id:guid}")]
     public IActionResult Delete(Guid id)
     {
-        try { _svc.DeleteSpecialty(id); return NoContent(); }
-        catch (KeyNotFoundException) { return NotFound(); }
+        _svc.DeleteSpecialty(id);
+        return NoContent();
     }
 }

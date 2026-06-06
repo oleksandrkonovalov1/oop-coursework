@@ -9,13 +9,13 @@ public class DirectoryServiceTests : IDisposable
 {
     private readonly string _dir = Path.Combine(Path.GetTempPath(), "abitur-svc-" + Guid.NewGuid());
     private readonly DirectoryService _svc;
-    private readonly JsonDataStore _store;
+    private readonly JsonDirectoryRepository _repo;
 
     public DirectoryServiceTests()
     {
-        _store = new JsonDataStore(_dir);
-        _store.Load();
-        _svc = new DirectoryService(_store);
+        _repo = new JsonDirectoryRepository(_dir);
+        _repo.Load();
+        _svc = new DirectoryService(_repo);
     }
 
     public void Dispose() { if (Directory.Exists(_dir)) Directory.Delete(_dir, true); }
@@ -27,8 +27,8 @@ public class DirectoryServiceTests : IDisposable
     {
         var uni = _svc.AddUniversity(new UniversityInput("ХНУРЕ", "пр. Науки, 14"));
         Assert.Equal("ХНУРЕ", uni.Name);
-        var reloaded = new JsonDataStore(_dir); reloaded.Load();
-        Assert.Single(reloaded.Universities);
+        var reloaded = new JsonDirectoryRepository(_dir); reloaded.Load();
+        Assert.Single(reloaded.Universities());
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class DirectoryServiceTests : IDisposable
     {
         var uni = _svc.AddUniversity(new UniversityInput("ХНУРЕ", "пр. Науки, 14"));
         _svc.UpdateUniversity(uni.Id, new UniversityInput("ХНУРЕ (Нурівський)", "пр. Науки, 14"));
-        Assert.Equal("ХНУРЕ (Нурівський)", _store.Universities.Single().Name);
+        Assert.Equal("ХНУРЕ (Нурівський)", _repo.Universities().Single().Name);
     }
 
     [Fact]
@@ -179,7 +179,7 @@ public class DirectoryServiceTests : IDisposable
         var spec = _svc.AddSpecialty(uni.Id, ValidSpec());
         _svc.UpdateSpecialty(spec.Id, new SpecialtyInput("122", "Комп'ютерні науки", 28000m,
             new CompetitionInput(5m, 1m, null)));
-        var updated = _store.Specialties.Single();
+        var updated = _repo.Specialties().Single();
         Assert.Equal("Комп'ютерні науки", updated.Name);
         Assert.Equal(1m, updated.Competition.Evening);
         Assert.Null(updated.Competition.PartTime);
@@ -191,7 +191,7 @@ public class DirectoryServiceTests : IDisposable
         var uni = Uni();
         var spec = _svc.AddSpecialty(uni.Id, ValidSpec());
         _svc.DeleteSpecialty(spec.Id);
-        Assert.Empty(_store.Specialties);
+        Assert.Empty(_repo.Specialties());
     }
 
     // --- Каскадне видалення ---
@@ -209,9 +209,9 @@ public class DirectoryServiceTests : IDisposable
         var removed = _svc.DeleteUniversity(uni.Id);
 
         Assert.Equal(2, removed);
-        Assert.Single(_store.Universities);
-        Assert.Single(_store.Specialties);
-        Assert.All(_store.Specialties, s => Assert.Equal(other.Id, s.UniversityId));
+        Assert.Single(_repo.Universities());
+        Assert.Single(_repo.Specialties());
+        Assert.All(_repo.Specialties(), s => Assert.Equal(other.Id, s.UniversityId));
     }
 
     // --- Запити завдання ---

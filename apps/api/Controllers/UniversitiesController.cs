@@ -20,14 +20,8 @@ public class UniversitiesController : ControllerBase
 
     /// <summary>«Все щодо обраного вузу»: вуз + його спеціальності.</summary>
     [HttpGet("{id:guid}")]
-    public IActionResult Get(Guid id)
-    {
-        try
-        {
-            return Ok(new { university = _svc.GetUniversity(id), specialties = _svc.GetUniversitySpecialties(id) });
-        }
-        catch (KeyNotFoundException) { return NotFound(); }
-    }
+    public IActionResult Get(Guid id) =>
+        Ok(new UniversityDetailsResponse(_svc.GetUniversity(id), _svc.GetUniversitySpecialties(id)));
 
     /// <summary>Додавання вузу.</summary>
     [HttpPost]
@@ -35,25 +29,16 @@ public class UniversitiesController : ControllerBase
 
     /// <summary>Редагування вузу.</summary>
     [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] UniversityInput input)
-    {
-        try { return Ok(_svc.UpdateUniversity(id, input)); }
-        catch (KeyNotFoundException) { return NotFound(); }
-    }
+    public IActionResult Update(Guid id, [FromBody] UniversityInput input) =>
+        Ok(_svc.UpdateUniversity(id, input));
 
     /// <summary>Видалення вузу разом з його спеціальностями. Повертає кількість видалених спеціальностей.</summary>
     [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
-    {
-        try { return Ok(new { deletedSpecialties = _svc.DeleteUniversity(id) }); }
-        catch (KeyNotFoundException) { return NotFound(); }
-    }
+    public IActionResult Delete(Guid id) =>
+        Ok(new DeleteUniversityResponse(_svc.DeleteUniversity(id)));
 
     /// <summary>Додавання спеціальності до вузу.</summary>
     [HttpPost("{id:guid}/specialties")]
-    public IActionResult AddSpecialty(Guid id, [FromBody] SpecialtyInput input)
-    {
-        try { return Ok(_svc.AddSpecialty(id, input)); }
-        catch (KeyNotFoundException) { return NotFound(); }
-    }
+    public IActionResult AddSpecialty(Guid id, [FromBody] SpecialtyInput input) =>
+        Ok(_svc.AddSpecialty(id, input));
 }
