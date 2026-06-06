@@ -87,7 +87,7 @@ public class DirectoryService
     public Specialty AddSpecialty(Guid universityId, SpecialtyInput input)
     {
         GetUniversity(universityId); // KeyNotFoundException, якщо вузу нема
-        var validated = ValidateSpecialty(input);
+        var validated = ValidateSpecialty(input, universityId, excludeId: null);
         var spec = new Specialty
         {
             UniversityId = universityId,
@@ -106,7 +106,7 @@ public class DirectoryService
     {
         var spec = _store.Specialties.FirstOrDefault(s => s.Id == id)
                    ?? throw new KeyNotFoundException("Спеціальність не знайдено");
-        var validated = ValidateSpecialty(input);
+        var validated = ValidateSpecialty(input, spec.UniversityId, excludeId: spec.Id);
         spec.Code = validated.Code;
         spec.Name = validated.Name;
         spec.ContractPrice = validated.Price;
@@ -179,7 +179,8 @@ public class DirectoryService
                 best.Competition.ByForm(form)!.Value);
     }
 
-    private (string Code, string Name, decimal Price, Competition Competition) ValidateSpecialty(SpecialtyInput input)
+    private (string Code, string Name, decimal Price, Competition Competition) ValidateSpecialty(
+        SpecialtyInput input, Guid universityId, Guid? excludeId)
     {
         var errors = new Dictionary<string, string>();
         var code = (input.Code ?? "").Trim();
@@ -187,15 +188,23 @@ public class DirectoryService
 
         if (name.Length == 0) errors["name"] = "Вкажіть назву спеціальності";
         else if (name.Length > 200) errors["name"] = "Назва не може бути довшою за 200 символів";
+        else if (_store.Specialties.Any(s =>
+                     s.Id != excludeId && s.UniversityId == universityId &&
+                     string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase)))
+            errors["name"] = "Спеціальність із такою назвою у цього вузу вже є";
 
         if (code.Length > 10) errors["code"] = "Код не може бути довшим за 10 символів";
 
         if (input.ContractPrice is null or <= 0)
             errors["contractPrice"] = "Вкажіть вартість контракту — число, більше за нуль";
+        else if (input.ContractPrice > 1_000_000m)
+            errors["contractPrice"] = "Вкажіть реальну вартість — не більше 1 000 000 грн/рік";
 
         var c = input.Competition ?? new CompetitionInput(null, null, null);
         if (c.FullTime is < 0 || c.Evening is < 0 || c.PartTime is < 0)
             errors["competition"] = "Конкурс не може бути від'ємним";
+        else if (c.FullTime is > 100 || c.Evening is > 100 || c.PartTime is > 100)
+            errors["competition"] = "Конкурс не може перевищувати 100 осіб на місце";
         else if (c.FullTime is null && c.Evening is null && c.PartTime is null)
             errors["competition"] = "Заповніть конкурс хоча б за однією формою навчання";
 

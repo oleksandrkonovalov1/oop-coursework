@@ -118,6 +118,55 @@ public class DirectoryServiceTests : IDisposable
     }
 
     [Fact]
+    public void AddSpecialty_CompetitionAboveLimit_ThrowsValidation()
+    {
+        var uni = Uni();
+        var input = new SpecialtyInput("121", "ІПЗ", 32000m, new CompetitionInput(1222m, null, null));
+        var ex = Assert.Throws<ValidationException>(() => _svc.AddSpecialty(uni.Id, input));
+        Assert.Contains("competition", ex.Errors.Keys);
+    }
+
+    [Fact]
+    public void AddSpecialty_PriceAboveLimit_ThrowsValidation()
+    {
+        var uni = Uni();
+        var input = new SpecialtyInput("121", "ІПЗ", 1_000_001m, new CompetitionInput(5m, null, null));
+        var ex = Assert.Throws<ValidationException>(() => _svc.AddSpecialty(uni.Id, input));
+        Assert.Contains("contractPrice", ex.Errors.Keys);
+    }
+
+    [Fact]
+    public void AddSpecialty_DuplicateNameInSameUniversity_ThrowsValidation()
+    {
+        var uni = Uni();
+        _svc.AddSpecialty(uni.Id, ValidSpec());
+        var dup = new SpecialtyInput("122", "інженерія програмного забезпечення", 20000m,
+            new CompetitionInput(3m, null, null));
+        var ex = Assert.Throws<ValidationException>(() => _svc.AddSpecialty(uni.Id, dup));
+        Assert.Contains("name", ex.Errors.Keys);
+    }
+
+    [Fact]
+    public void AddSpecialty_SameNameInOtherUniversity_IsAllowed()
+    {
+        var uni = Uni();
+        _svc.AddSpecialty(uni.Id, ValidSpec());
+        var other = _svc.AddUniversity(new UniversityInput("КПІ", "Київ"));
+        var spec = _svc.AddSpecialty(other.Id, ValidSpec());
+        Assert.Equal(other.Id, spec.UniversityId);
+    }
+
+    [Fact]
+    public void UpdateSpecialty_KeepingOwnName_IsAllowed()
+    {
+        var uni = Uni();
+        var spec = _svc.AddSpecialty(uni.Id, ValidSpec());
+        var updated = _svc.UpdateSpecialty(spec.Id, new SpecialtyInput("121",
+            "Інженерія програмного забезпечення", 33000m, new CompetitionInput(8m, null, null)));
+        Assert.Equal(33000m, updated.ContractPrice);
+    }
+
+    [Fact]
     public void AddSpecialty_UnknownUniversity_ThrowsKeyNotFound()
     {
         Assert.Throws<KeyNotFoundException>(() => _svc.AddSpecialty(Guid.NewGuid(), ValidSpec()));

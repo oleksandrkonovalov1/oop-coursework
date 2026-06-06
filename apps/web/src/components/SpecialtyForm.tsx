@@ -7,10 +7,13 @@ import { ApiValidationError } from "../api";
 import { inputCls } from "../lib/ui";
 import type { Specialty, SpecialtyInput } from "../types";
 
-/** Порожній рядок → null («форма не ведеться»), інакше — число ≥ 0. */
+/** Порожній рядок → null («форма не ведеться»), інакше — число в межах 0–100 осіб на місце. */
 const formValue = z.preprocess(
   (v) => (v === "" || v == null ? null : Number(v)),
-  z.number({ message: "Введіть число" }).min(0, "Конкурс не може бути від'ємним").nullable(),
+  z.number({ message: "Введіть число" })
+    .min(0, "Конкурс не може бути від'ємним")
+    .max(100, "Не більше 100 осіб на місце")
+    .nullable(),
 );
 
 const schema = z
@@ -19,7 +22,9 @@ const schema = z
     name: z.string().trim().min(1, "Вкажіть назву спеціальності").max(200, "Не довше 200 символів"),
     contractPrice: z.preprocess(
       (v) => (v === "" || v == null ? null : Number(v)),
-      z.number({ message: "Введіть число" }).positive("Вартість має бути більшою за нуль"),
+      z.number({ message: "Введіть число" })
+        .positive("Вартість має бути більшою за нуль")
+        .max(1_000_000, "Не більше 1 000 000 грн/рік"),
     ),
     fullTime: formValue,
     evening: formValue,
@@ -122,7 +127,11 @@ export default function SpecialtyForm({ open, initial, onSubmit, onClose }: Spec
               <input id="sp-pt" type="number" step="0.1" className={inputCls} {...register("partTime")} />
             </div>
           </div>
-          {errors.fullTime && <p className={errText}>{errors.fullTime.message}</p>}
+          {(errors.fullTime || errors.evening || errors.partTime) && (
+            <p className={errText}>
+              {(errors.fullTime ?? errors.evening ?? errors.partTime)?.message}
+            </p>
+          )}
         </fieldset>
         <div className="flex justify-end gap-3 pt-2">
           <button type="button" onClick={onClose}
